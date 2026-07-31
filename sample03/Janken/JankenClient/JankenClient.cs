@@ -12,6 +12,10 @@ namespace JankenClient
         public static void Main()
         {
             Console.WriteLine("=== じゃんけんクライアント ===");
+
+            Console.WriteLine("名前を入力してください");
+            string? playerName=Console.ReadLine();
+
             Console.WriteLine("じゃんけんの手を選んでください:");
             Console.WriteLine("0: グー");
             Console.WriteLine("1: パー");
@@ -19,7 +23,7 @@ namespace JankenClient
             Console.Write("入力 > ");
 
             string? input = Console.ReadLine();
-
+            
             if (string.IsNullOrEmpty(input))
             {
                 Console.WriteLine("入力がありません。");
@@ -38,12 +42,12 @@ namespace JankenClient
 
             Console.WriteLine($"あなたの手: {Janken.GetHandName(selectedHand.Value)}");
 
-            SocketClient(input);
+            SocketClient(playerName,input);
             Console.ReadKey();
         }
 
 
-        public static void SocketClient(string st)
+        public static void SocketClient(string playerName,string st)
         {
             //IPアドレスやポートを設定(自PC、ポート:11000）
             string hostName = Dns.GetHostName();
@@ -69,9 +73,10 @@ namespace JankenClient
                 return;
             }
 
+            string sendData = playerName + "|" + st;
             // ProtocolHandlerを使ってデータを送信
-            Console.WriteLine($"\n送信データ: {st}");
-            if (!ProtocolHandler.SendData(socket, st))
+            Console.WriteLine($"\n送信データ: {sendData}");
+            if (!ProtocolHandler.SendData(socket, sendData))
             {
                 Console.WriteLine("送信に失敗しました。");
                 socket.Close();
@@ -97,6 +102,12 @@ namespace JankenClient
             //ソケットを終了している。
             socket.Shutdown(SocketShutdown.Both);
             socket.Close();
+        }
+
+        private static void GetName(string name)
+        {
+            // 必要に応じて実装を変更してください（保存や検証など）
+            Console.WriteLine($"ようこそ {name} さん");
         }
     }
 }
