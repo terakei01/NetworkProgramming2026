@@ -25,6 +25,10 @@ public enum Result
 /// </summary>
 public class Janken
 {
+    public static string GetName(string playerName)
+    {
+        return "a";
+    }
     /// <summary>
     /// 手の名前を取得
     /// </summary>

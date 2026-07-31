@@ -65,9 +65,12 @@ namespace Jankenhost
 
             // 正常に受信したデータを表示
             Console.WriteLine($"受信データ: {receiveResult.Data}");
+            string[] data = receiveResult.Data.Split('|');
+            string playerName = data[0];
+            string hand = data[1];
 
             // クライアントの手を解析
-            Hand? clientHand = Janken.ParseHand(receiveResult.Data);
+            Hand? clientHand = Janken.ParseHand(hand);
 
             if (clientHand == null)
             {
@@ -95,7 +98,7 @@ namespace Jankenhost
             string responseData = $"【じゃんけん結果】\n" +
                                   $"あなたの手: {Janken.GetHandName(clientHand.Value)}\n" +
                                   $"ホストの手: {Janken.GetHandName(hostHand)}\n" +
-                                  $"結果: あなたの{Janken.GetResultMessage(result)}!";
+                                  $"結果:{playerName}の{Janken.GetResultMessage(result)}!";
 
             // クライアントにProtocolHandlerを使って返す
             if (!ProtocolHandler.SendData(handler, responseData))

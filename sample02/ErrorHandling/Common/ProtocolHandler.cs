@@ -8,7 +8,9 @@ namespace Common
     /// </summary>
     public class ProtocolHandler
     {
+        //最大1024バイトまでしか受け付けない
         private const int MaxBufferSize = 1024;
+        //データを送るときの終わりの印
         private const string EndOfFile = "<EOF>";
 
         /// <summary>
@@ -16,9 +18,13 @@ namespace Common
         /// </summary>
         public class ReceiveResult
         {
+            //受信を成功したかどうか
             public bool Success { get; set; }
+            //受信した文字
             public string Data { get; set; } = string.Empty;
+            //エラーの内容
             public string ErrorMessage { get; set; } = string.Empty;
+            //エラーの種類
             public ReceiveErrorType ErrorType { get; set; }
         }
 
@@ -41,13 +47,16 @@ namespace Common
         /// <returns>受信結果</returns>
         public static ReceiveResult ReceiveData(Socket socket)
         {
+            //受信結果を入れる
             var result = new ReceiveResult { Success = false };
+            //一時的な入れ物
             byte[] buffer = new byte[MaxBufferSize];
             int totalBytesReceived = 0;
 
             try
             {
                 // データを受信
+                //ここでバイト値で受け取る
                 int bytesReceived = socket.Receive(buffer);
 
                 // セッションを切られた場合
