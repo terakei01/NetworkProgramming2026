@@ -16,6 +16,8 @@ namespace JankenClient
             Console.WriteLine("名前を入力してください");
             string? playerName=Console.ReadLine();
 
+            Console.WriteLine("プレイヤーネーム "+ playerName);
+
             Console.WriteLine("じゃんけんの手を選んでください:");
             Console.WriteLine("0: グー");
             Console.WriteLine("1: パー");
