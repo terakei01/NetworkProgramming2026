@@ -98,7 +98,15 @@ namespace Jankenhost
             string responseData = $"【じゃんけん結果】\n" +
                                   $"あなたの手: {Janken.GetHandName(clientHand.Value)}\n" +
                                   $"ホストの手: {Janken.GetHandName(hostHand)}\n" +
-                                  $"結果:{playerName}の{Janken.GetResultMessage(result)}!";
+                                  $"結果:{playerName}さんの{Janken.GetResultMessage(result)}!";
+
+            if (result == Result.Draw)
+            {
+                responseData = $"【じゃんけん結果】\n" +
+                                  $"あなたの手: {Janken.GetHandName(clientHand.Value)}\n" +
+                                  $"ホストの手: {Janken.GetHandName(hostHand)}\n" +
+                                  $"結果:{Janken.GetResultMessage(result)}!";
+            }
 
             // クライアントにProtocolHandlerを使って返す
             if (!ProtocolHandler.SendData(handler, responseData))
